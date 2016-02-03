@@ -9,6 +9,11 @@
     "type": "git",
     "url": "git://github.com/fusioneng/interactive-template.git"
   },
+  "browserify": {
+    "transform": [
+      "node-csvify"
+    ]
+  },
   "devDependencies": {
     "browser-sync": "*",
     "browserify": "*",
@@ -26,6 +31,7 @@
     "gulp-util": "*",
     "handlebars": "*",
     "lodash": "*",
+    "node-csvify": "0.0.4",
     "pretty-hrtime": "*",
     "require-dir": "*",
     "vinyl-source-stream": "*",
