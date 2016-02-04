@@ -1,0 +1,12 @@
+// SASS styles for the graph
+
+.spb-visualization {
+	background-color: red;
+
+	svg {
+
+		circle:hover {
+			cursor: pointer;
+		}
+	}
+}

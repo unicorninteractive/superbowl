@@ -1,4 +1,5 @@
 @import "material";
+@import "visualization";
 
 .site-logo {
 	display: block;
@@ -9,4 +10,23 @@
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: left 50%;
+}
+
+.spb-timer {
+	height: 100px;
+	color: #666;
+	text-align: center;
+
+	.spb-timer-counter {
+		display: block;
+		font-family: "Roboto";
+		font-weight: 100;
+		width: 100%;
+		font-size: 4em;
+	}
+
+	.spb-time-slider {
+		width: 100%;
+		display: block;
+	}
 }
