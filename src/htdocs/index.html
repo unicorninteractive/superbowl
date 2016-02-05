@@ -19,8 +19,9 @@
               <span class="site-logo"></span>
             </a>
           </span>
+          <div class="mdl-layout-title-spacer"></div> 
           <span class="mdl-layout-title secondary-title">
-            2016 Superbowl: Carolina Panthers vs Denver Broncos
+            2016 Superbowl
           </span>
           <div class="mdl-layout-title-spacer"></div>
           <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored show-modal">
@@ -32,18 +33,16 @@
         <div class="mdl-grid">
       		<div class="spb-timer mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
             <span class="spb-timer-counter">
-              06:00 EST
             </span>
-            <span class="spb-time-slider">
+            <span class="spb-timer-slider">
               <p style="width: 100%;">
-                <input class="mdl-slider mdl-js-slider" type="range" id="s1" min="0" max="300" value="0" step="1">
+                <input class="mdl-slider mdl-js-slider" id="spb-slider" type="range" id="s1" min="0" max="300" value="0" step="1">
               </p>
             </span>
       		</div>
-        <div class="spb-visualization mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--6-col mdl-card mdl-cell--12-col-tablet">
-          Visualization
+        <div class="spb-visualization mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col mdl-card mdl-cell--12-col-tablet">
         </div>
-        <div class="spb-explainer mdl-shadow--2dp mdl-card mdl-color--white mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet">
+        <div class="spb-explainer mdl-shadow--2dp mdl-card mdl-color--white mdl-cell mdl-cell--4-col mdl-cell--12-col-tablet">
           <div class="mdl-card__title mdl-color-text--grey-600">
             <h2 class="mdl-card__title-text" id="chapter-title">The best quarter back
               </h2>
@@ -53,7 +52,7 @@
 
             <p>To start the visualization click the button below.</p>
 
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Start</button>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="spb-start">Start</button>
         </div>
         </div>
       </main>

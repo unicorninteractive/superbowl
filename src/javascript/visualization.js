@@ -1,12 +1,52 @@
 var d3                  = require('d3');
 var data                = require('./data.csv');
+var dataset             = require('./dataset.csv');
+
+var slider              = document.getElementById("spb-slider");
+var currentTime         = d3.select(".spb-timer-counter");
+
+var timeInterval        = 0;
+
+var timeFormat          = d3.time.format("%I:%M %p EST");
+
+var intervalTimer;
+
+var timeArray           = [];
+var firstDataPoint      = dataset[0];
+
+// Process time and datestamps
+for (var x in firstDataPoint) {
+  x = parseInt(x, 10);
+  if (Number.isInteger(x)) {
+    timeArray.push(new Date(x * 1000));
+  }
+}
+
+// Set up
+currentTime.html(timeFormat(timeArray[timeInterval]));
+
+slider.setAttribute('max', timeArray.length);
+slider.onchange = function() {
+  currentTime.html(timeFormat(timeArray[this.value]))
+};
+
+
+function advanceTimer() {
+  timeInterval++;
+  slider.MaterialSlider.change(timeInterval);
+  currentTime.html(timeFormat(timeArray[timeInterval]));
+}
+
+d3.select("#spb-start").on('click', function(e) {
+  intervalTimer = window.setInterval(advanceTimer, 125);
+});
 
 var width = 940,
-height = 600,
-layout_gravity = -0.01,
-damper = 0.1,
-nodes = [],
-vis, force, circles, radius_scale;
+  height = 600,
+  layout_gravity = -0.01,
+  damper = 0.1,
+  nodes = [],
+  vis, force, circles, radius_scale;
 
 var center = {x: width / 2, y: height / 2};
 
@@ -22,6 +62,14 @@ var fill_color = d3.scale.ordinal()
 
 var max_amount = d3.max(data, function(d) { return parseInt(d.total_amount, 10); } );
 radius_scale = d3.scale.pow().exponent(0.5).domain([0, max_amount]).range([2, 85]);
+
+// dataset.forEach(function(d) {
+//   console.log(d);
+//   // var node = {
+//   //   id: d.id,
+//   //   radius: radius_scale(parseFloat(d.))
+//   // }
+// });
 
 data.forEach(function(d){
   var node = {
@@ -59,6 +107,10 @@ circles.enter().append ("circle")
 
 circles.transition().duration(2000).attr("r", function(d) { return d.radius; });
 
+
+function setGameTime(time) {
+  console.log('set game time here');
+}
 
 function charge(d) {
   return -Math.pow(d.radius, 2.0) / 8;
@@ -133,16 +185,16 @@ function hide_years() {
 
 
 function show_details(data, i, element) {
-  d3.select(element).attr("stroke", "black");
-  var content = "<span class=\"name\">Title:</span><span class=\"value\"> " + data.name + "</span><br/>";
-  content +="<span class=\"name\">Amount:</span><span class=\"value\"> $" + addCommas(data.value) + "</span><br/>";
-  content +="<span class=\"name\">Year:</span><span class=\"value\"> " + data.year + "</span>";
-  tooltip.showTooltip(content, d3.event);
+  // d3.select(element).attr("stroke", "black");
+  // var content = "<span class=\"name\">Title:</span><span class=\"value\"> " + data.name + "</span><br/>";
+  // content +="<span class=\"name\">Amount:</span><span class=\"value\"> $" + addCommas(data.value) + "</span><br/>";
+  // content +="<span class=\"name\">Year:</span><span class=\"value\"> " + data.year + "</span>";
+  // tooltip.showTooltip(content, d3.event);
 }
 
 function hide_details(data, i, element) {
-  d3.select(element).attr("stroke", function(d) { return d3.rgb(fill_color(d.group)).darker();} );
-  tooltip.hideTooltip();
+  // d3.select(element).attr("stroke", function(d) { return d3.rgb(fill_color(d.group)).darker();} );
+  // tooltip.hideTooltip();
 }
 
 start();
