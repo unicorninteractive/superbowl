@@ -6,7 +6,6 @@ var slider              = document.getElementById("spb-slider");
 var currentTime         = d3.select(".spb-timer-counter");
 
 var timeInterval        = 0;
-
 var timeFormat          = d3.time.format("%I:%M %p EST");
 
 var intervalTimer;
@@ -27,7 +26,20 @@ currentTime.html(timeFormat(timeArray[timeInterval]));
 
 slider.setAttribute('max', timeArray.length);
 slider.onchange = function() {
-  currentTime.html(timeFormat(timeArray[this.value]))
+
+  // nodes.for
+  nodes.forEach(function(d) {
+    console.log(d.id);
+    console.log(dataset[d.name]);
+
+    d.radius = 40;
+  });
+
+  circles.transition().duration(1000).attr("r", function(d) {
+    return d.radius;
+  });
+
+  currentTime.html(timeFormat(timeArray[this.value]));
 };
 
 
@@ -56,57 +68,66 @@ var year_centers = {
   "2010": {x: 2 * width / 3, y: height / 2}
 };
 
-var fill_color = d3.scale.ordinal()
-.domain(["low", "medium", "high"])
-.range(["#d84b2a", "#beccae", "#7aa25c"]);
+var fillColor = d3.scale.ordinal()
+  .domain(["singer", "panthers", "broncos"])
+  .range(["#d84b2a", "#beccae", "#7aa25c"]);
 
-var max_amount = d3.max(data, function(d) { return parseInt(d.total_amount, 10); } );
-radius_scale = d3.scale.pow().exponent(0.5).domain([0, max_amount]).range([2, 85]);
+// var max_amount = d3.max(data, function(d) { return parseInt(d.total_amount, 10); } );
+radius_scale = d3.scale.pow().exponent(0.5).domain([0, 100]).range([2, 85]);
 
-// dataset.forEach(function(d) {
-//   console.log(d);
-//   // var node = {
-//   //   id: d.id,
-//   //   radius: radius_scale(parseFloat(d.))
-//   // }
-// });
-
-data.forEach(function(d){
+dataset.forEach(function(d) {
   var node = {
     id: d.id,
-    radius: radius_scale(parseInt(d.total_amount, 10)),
-    value: d.total_amount,
-    name: d.grant_title,
-    org: d.organization,
-    group: d.group,
-    year: d.start_year,
+    type: d.type,
+    radius: radius_scale(parseFloat(d["1454371200"])),
+    name: d.name,
     x: Math.random() * 900,
-    y: Math.random() * 800
+    y: Math.random() * 900
   };
   nodes.push(node);
 });
 
+// dataset.forEach(function(d){
+//   var node = {
+//     id: d.id,
+//     radius: radius_scale(parseInt(d.total_amount, 10)),
+//     value: d.total_amount,
+//     name: d.grant_title,
+//     org: d.organization,
+//     group: d.group,
+//     year: d.start_year,
+//     x: Math.random() * 900,
+//     y: Math.random() * 800
+//   };
+//   nodes.push(node);
+// });
+
 nodes.sort(function(a, b) {return b.value- a.value; });
 
 vis = d3.select(".spb-visualization").append("svg")
-.attr("width", width)
-.attr("height", height)
-.attr("id", "svg_vis");
+  .attr("width", width)
+  .attr("height", height)
+  .attr("id", "svg_vis");
 
 circles = vis.selectAll("circle")
-.data(nodes, function(d) { return d.id ;});
+  .data(nodes, function(d) { return d.id ;});
 
 circles.enter().append ("circle")
-.attr("r", 0)
-.attr("fill", function(d) { return fill_color(d.group) ;})
-.attr("stroke-width", 2)
-.attr("stroke", function(d) {return d3.rgb(fill_color(d.group)).darker();})
-.attr("id", function(d) { return  "bubble_" + d.id; })
-.on("mouseover", function(d, i) {show_details(d, i, this);} )
-.on("mouseout", function(d, i) {hide_details(d, i, this);} );
+  .attr("r", 0)
+  .attr("fill", function(d) {return fillColor(d.type) ;})
+  .attr("stroke-width", 3)
+  .attr("stroke", function(d) {return d3.rgb(fillColor(d.type)).darker();})
+  .attr("id", function(d) { return  "bubble-" + d.id; })
+  .on("mouseover", function(d, i) {show_details(d, i, this);} )
+  .on("mouseout", function(d, i) {hide_details(d, i, this);} )
+  .append("title")
+  .text(function(d) {
+    return d.name;
+  });
 
-circles.transition().duration(2000).attr("r", function(d) { return d.radius; });
-
+circles.transition().duration(1000).attr("r", function(d) {
+  return d.radius;
+});
 
 function setGameTime(time) {
   console.log('set game time here');
@@ -199,15 +220,3 @@ function hide_details(data, i, element) {
 
 start();
 display_group_all();
-
-window.setTimeout(function() {
-  display_by_year();
-}, 2000);
-
-window.setTimeout(function() {
-  display_group_all();
-}, 4000);
-
-window.setTimeout(function() {
-  display_group_all();
-}, 6000);
