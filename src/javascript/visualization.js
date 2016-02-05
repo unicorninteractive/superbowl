@@ -6,7 +6,6 @@ var slider              = document.getElementById("spb-slider");
 var currentTime         = d3.select(".spb-timer-counter");
 
 var timeInterval        = 0;
-
 var timeFormat          = d3.time.format("%I:%M %p EST");
 
 var intervalTimer;
@@ -27,6 +26,19 @@ currentTime.html(timeFormat(timeArray[timeInterval]));
 
 slider.setAttribute('max', timeArray.length);
 slider.onchange = function() {
+
+  // nodes.for
+  nodes.forEach(function(d) {
+    console.log(d.id);
+    console.log(dataset[d.name]);
+
+    d.radius = 40;
+  });
+
+  circles.transition().duration(1000).attr("r", function(d) {
+    return d.radius;
+  });
+
   currentTime.html(timeFormat(timeArray[this.value]));
 };
 
@@ -68,6 +80,7 @@ dataset.forEach(function(d) {
     id: d.id,
     type: d.type,
     radius: radius_scale(parseFloat(d["1454371200"])),
+    name: d.name,
     x: Math.random() * 900,
     y: Math.random() * 900
   };
@@ -92,24 +105,29 @@ dataset.forEach(function(d) {
 nodes.sort(function(a, b) {return b.value- a.value; });
 
 vis = d3.select(".spb-visualization").append("svg")
-.attr("width", width)
-.attr("height", height)
-.attr("id", "svg_vis");
+  .attr("width", width)
+  .attr("height", height)
+  .attr("id", "svg_vis");
 
 circles = vis.selectAll("circle")
   .data(nodes, function(d) { return d.id ;});
 
 circles.enter().append ("circle")
   .attr("r", 0)
-  .attr("fill", function(d) {console.log(d); return fillColor(d.type) ;})
-  .attr("stroke-width", 2)
+  .attr("fill", function(d) {return fillColor(d.type) ;})
+  .attr("stroke-width", 3)
   .attr("stroke", function(d) {return d3.rgb(fillColor(d.type)).darker();})
-  .attr("id", function(d) { return  "bubble_" + d.id; })
+  .attr("id", function(d) { return  "bubble-" + d.id; })
   .on("mouseover", function(d, i) {show_details(d, i, this);} )
-  .on("mouseout", function(d, i) {hide_details(d, i, this);} );
+  .on("mouseout", function(d, i) {hide_details(d, i, this);} )
+  .append("title")
+  .text(function(d) {
+    return d.name;
+  });
 
-circles.transition().duration(2000).attr("r", function(d) { return d.radius; });
-
+circles.transition().duration(1000).attr("r", function(d) {
+  return d.radius;
+});
 
 function setGameTime(time) {
   console.log('set game time here');
