@@ -10,6 +10,8 @@ var timeFormat          = d3.time.format("%I:%M %p EST");
 
 var intervalTimer;
 
+var dataArray           = {};
+
 var timeArray           = [];
 var firstDataPoint      = dataset[0];
 
@@ -42,6 +44,9 @@ slider.onchange = function() {
   currentTime.html(timeFormat(timeArray[this.value]));
 };
 
+function isFloat(n){
+  return n === Number(n) && n % 1 !== 0;
+}
 
 function advanceTimer() {
   timeInterval++;
@@ -70,12 +75,23 @@ var year_centers = {
 
 var fillColor = d3.scale.ordinal()
   .domain(["singer", "panthers", "broncos"])
-  .range(["#d84b2a", "#beccae", "#7aa25c"]);
+  .range(["#f1bb27", "#1d91ca", "#f26a24"]);
 
 // var max_amount = d3.max(data, function(d) { return parseInt(d.total_amount, 10); } );
 radius_scale = d3.scale.pow().exponent(0.5).domain([0, 100]).range([2, 85]);
 
 dataset.forEach(function(d) {
+  var tempArray = [];
+
+  for (var i in d) {
+    var value = parseFloat(d[i]);
+    if (!isNaN(value)) {
+      tempArray.push(d[i]);
+    }
+  }
+
+  dataArray[d.id] = tempArray;
+
   var node = {
     id: d.id,
     type: d.type,
@@ -86,6 +102,8 @@ dataset.forEach(function(d) {
   };
   nodes.push(node);
 });
+
+console.log(dataArray);
 
 // dataset.forEach(function(d){
 //   var node = {
