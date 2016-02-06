@@ -2,15 +2,19 @@
 @import "visualization";
 @import "dialog";
 
-.site-logo {
-	display: block;
-	width: 160px;
-	height: 30px;
-	margin-right: 2em;
-	background-image: url('images/googletrendslogo.svg');
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: left 50%;
+.spb-header-row {
+	justify-content: space-between;
+
+	.site-logo {
+		display: block;
+		width: 160px;
+		height: 30px;
+		margin-right: 2em;
+		background-image: url('images/googletrendslogo.svg');
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: left 50%;
+	}
 }
 
 .spb-timer {
@@ -36,27 +40,77 @@
 .spb-scores {
 	display: flex;
 	width: 100%;
-	height: 100px;
+	height: 80px;
 
 	.spb-panthers {
 		flex: 1;
 		background-color: #1d91ca;
 		text-align: center;
-		line-height: 100px;
 		font-family: "Roboto";
-		font-weight: 200;
-		font-size: 3vw;
+		font-weight: 400;
+		font-size: 26px;
 		color: white;
+		display: flex;
+		justify-content: space-between;
+
+		.spb-team-name {
+			margin-left: 25px;
+			align-self: center;
+		}
+
+		.spb-team-score {
+			margin-right: 25px;
+			line-height: 80px;
+		}
 	}
 
 	.spb-broncos {
 		flex: 1;
+		display: flex;
+		flex-direction: row-reverse;
 		background-color: #f26a24;
-		text-align: center;
-		line-height: 100px;
 		font-family: "Roboto";
-		font-weight: 200;
-		font-size: 3vw;
+		font-weight: 400;
+		font-size: 26px;
 		color: white;
+		justify-content: space-between;
+
+		.spb-team-name {
+			margin-right: 25px;
+			align-self: center;
+			text-align: right;
+		}
+
+		.spb-team-score {
+			margin-left: 25px;
+			line-height: 80px;
+		}
 	}
+
+	.spb-team-score {
+		text-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+		width: 50px;
+		justify-content: space-between;
+	}
+
+	.spb-team-name-first {
+		text-transform: uppercase;
+		font-size: 20px;
+		display: block;
+		color: rgba(0, 0, 0, 0.5);
+		height: 20px;
+	}
+
+	.spb-team-name-last {
+		text-transform: uppercase;
+		font-size: 20px;
+		display: block;
+		height: 20px;
+	}
+}
+
+.spb-footer {
+	margin: 30px 0;
+	text-align: center;
+	color: #aaa;
 }

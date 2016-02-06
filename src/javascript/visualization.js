@@ -128,6 +128,22 @@ circles.transition().duration(1000).attr("r", function(d) {
   return d.radius;
 });
 
+// Debounce function for intensive drawing operations
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+}
+
 function setGameTime() {
   nodes.forEach(function(d) {
     d.radius = radius_scale(dataArray[d.id][timeInterval]);
@@ -139,8 +155,8 @@ function setGameTime() {
 
   currentTime.html(timeFormat(timeArray[timeInterval]));
 
-  d3.select('.spb-panthers').html(scores[timeInterval].panthers);
-  d3.select('.spb-broncos').html(scores[timeInterval].broncos);
+  d3.select('.spb-panthers .spb-team-score').html(scores[timeInterval].panthers);
+  d3.select('.spb-broncos .spb-team-score').html(scores[timeInterval].broncos);
 }
 
 function charge(d) {
