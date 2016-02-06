@@ -24,15 +24,22 @@
             2016 Superbowl
           </span>
           <div class="mdl-layout-title-spacer"></div>
-          <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored show-modal">
-            Share
-          </button>
+          <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect spb-share show-modal">Share</a>
         </div>
       </header>
       <main id="main-holder" class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid">
       		<div class="spb-timer mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
             <span class="spb-timer-counter">
+              <span class="spb-timer-counter-left"></span>
+              <span class="spb-timer-counter-right">
+                <span class="spb-timer-counter-right-top">
+                  EST
+                </span>
+                <span class="spb-timer-counter-right-bottom">
+                  PM
+                </span>
+              </span>
             </span>
             <span class="spb-timer-slider">
               <p style="width: 100%;">
@@ -40,43 +47,44 @@
               </p>
             </span>
       		</div>
-        <div class="spb-visualization mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col mdl-card mdl-cell--12-col-tablet">
-          <div class="spb-scores">
-            <div class="spb-panthers">
-              <span class="spb-team-name">
-                <span class="spb-team-name-first">Carolina</span>
-                <span class="spb-team-name-last">Panthers</span>
-              </span>
-              <span class="spb-team-score">
-                0
-              </span>
-            </div>
-            <div class="spb-broncos">
-              <span class="spb-team-name">
-                <span class="spb-team-name-first">Denver</span>
-                <span class="spb-team-name-last">Broncos</span>
-              </span>
-              <span class="spb-team-score">
-                0
-              </span>
+          <div class="spb-visualization mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col mdl-card mdl-cell--12-col-tablet">
+            <div class="spb-scores">
+              <div class="spb-panthers">
+                <span class="spb-team-name">
+                  <span class="spb-team-name-first">Carolina</span>
+                  <span class="spb-team-name-last">Panthers</span>
+                </span>
+                <span class="spb-team-score">
+                  0
+                </span>
+              </div>
+              <div class="spb-broncos">
+                <span class="spb-team-name">
+                  <span class="spb-team-name-first">Denver</span>
+                  <span class="spb-team-name-last">Broncos</span>
+                </span>
+                <span class="spb-team-score">
+                  0
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="spb-explainer mdl-shadow--2dp mdl-card mdl-color--white mdl-cell mdl-cell--4-col mdl-cell--12-col-tablet">
-          <div class="mdl-card__title mdl-color-text--grey-600">
-            <h2 class="mdl-card__title-text" id="chapter-title">The best quarter back
-              </h2>
-            </div>
-
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna wirl aliqua. Up exlaborum incididunt quis nostrud exercitatn.</p>
-
-            <p>To start the visualization click the button below.</p>
-
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="spb-start">Start</button>
-        </div>
-        </div>
-        <div class="spb-footer">
-          <p>Built with love by <a href="http://interactiveunicorn.com" target="_blank">Unicorn Interactive</a></p>
+          <div class="spb-explainer mdl-cell mdl-cell--4-col mdl-cell--12-col-tablet">
+            <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
+                <div class="mdl-card__title mdl-card--expand mdl-color--blue-300">
+                  <h2 class="mdl-card__title-text">Updates</h2>
+                </div>
+                <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                  Non dolore elit adipisicing ea reprehenderit consectetur culpa.
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                  <a href="#" id="spb-start" class="mdl-button mdl-js-button mdl-js-ripple-effect">Start</a>
+                </div>
+              </div>
+          </div>
+          <div class="spb-footer">
+            <p>Built with love by <a href="http://interactiveunicorn.com" target="_blank">Unicorn Interactive</a></p>
+          </div>
         </div>
       </main>
     </div>
@@ -86,11 +94,10 @@
       <div class="mdl-dialog__content">
       </div>
       <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
-        <button type="button" class="mdl-button">Facebook</button>
+        <button type="button" class="mdl-button spb-facebook-share">Facebook</button>
         <button type="button" class="mdl-button">Google+</button>
-        <button type="button" class="mdl-button">Twitter</button>
-        <button type="button" class="mdl-button">LinkedIn</button>
-        <button type="button" class="mdl-button close">Close</button>
+        <button type="button" class="mdl-button spb-twitter-share">Twitter</button>
+        <button type="button" class="mdl-button close">Cancel</button>
       </div>
     </dialog>
 

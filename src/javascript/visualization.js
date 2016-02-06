@@ -5,10 +5,10 @@ var dataset             = require('./dataset.csv');
 var scores              = require('./scores.json').scores;
 
 var slider              = document.getElementById("spb-slider");
-var currentTime         = d3.select(".spb-timer-counter");
+var currentTime         = d3.select(".spb-timer-counter-left");
 
 var timeInterval        = 0;
-var timeFormat          = d3.time.format("%I:%M %p EST");
+var timeFormat          = d3.time.format("%I:%M");
 
 var intervalTimer;
 var dataArray           = {};
@@ -246,3 +246,25 @@ function hide_details(data, i, element) {
 
 start();
 display_group_all();
+
+// Share buttons
+d3.select('.spb-twitter-share').on('click', function() {
+  var shareText = "Replay the %23SuperBowl with this interactive from @GoogleTrends";
+  var url = "http://googletrends.github.io/2016-superbowl/";
+  var w = 550;
+  var h = 300;
+  var top = (screen.height / 2) - (h / 2);
+  var left = (screen.width / 2) - (w / 2);
+  var href = "http://twitter.com/share?text=" + shareText + "&url=" + encodeURI(url);
+  window.open(href, "tweet", "height=" + h + ",width=" + w + ",top=" + top + ",left=" + left + ",resizable=1");
+});
+
+d3.select('.spb-facebook-share').on('click', function() {
+  var url = "http://googletrends.github.io/2016-state-of-the-union/";
+  var w = 600;
+  var h = 400;
+  var top = (screen.height / 2) - (h / 2);
+  var left = (screen.width / 2) - (w / 2);
+  var href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURI(url);
+  window.open(href, "tweet", "height=" + h + ",width=" + w + ",top=" + top + ",left=" + left + ",resizable=1");
+});
