@@ -1,6 +1,8 @@
 var d3                  = require('d3');
+
 var data                = require('./data.csv');
 var dataset             = require('./dataset.csv');
+var scores              = require('./scores.json').scores;
 
 var slider              = document.getElementById("spb-slider");
 var currentTime         = d3.select(".spb-timer-counter");
@@ -9,7 +11,6 @@ var timeInterval        = 0;
 var timeFormat          = d3.time.format("%I:%M %p EST");
 
 var intervalTimer;
-
 var dataArray           = {};
 
 var timeArray           = [];
@@ -23,39 +24,23 @@ for (var x in firstDataPoint) {
   }
 }
 
-// Set up
 currentTime.html(timeFormat(timeArray[timeInterval]));
 
 slider.setAttribute('max', timeArray.length);
+
 slider.onchange = function() {
-
-  // nodes.for
-  nodes.forEach(function(d) {
-    console.log(d.id);
-    console.log(dataset[d.name]);
-
-    d.radius = 40;
-  });
-
-  circles.transition().duration(1000).attr("r", function(d) {
-    return d.radius;
-  });
-
-  currentTime.html(timeFormat(timeArray[this.value]));
+  timeInterval = parseInt(this.value, 10);
+  setGameTime();
 };
-
-function isFloat(n){
-  return n === Number(n) && n % 1 !== 0;
-}
 
 function advanceTimer() {
   timeInterval++;
   slider.MaterialSlider.change(timeInterval);
-  currentTime.html(timeFormat(timeArray[timeInterval]));
+  setGameTime();
 }
 
 d3.select("#spb-start").on('click', function(e) {
-  intervalTimer = window.setInterval(advanceTimer, 125);
+  intervalTimer = window.setInterval(advanceTimer, 200);
 });
 
 var width = 940,
@@ -103,8 +88,6 @@ dataset.forEach(function(d) {
   nodes.push(node);
 });
 
-console.log(dataArray);
-
 // dataset.forEach(function(d){
 //   var node = {
 //     id: d.id,
@@ -147,8 +130,19 @@ circles.transition().duration(1000).attr("r", function(d) {
   return d.radius;
 });
 
-function setGameTime(time) {
-  console.log('set game time here');
+function setGameTime() {
+  nodes.forEach(function(d) {
+    d.radius = radius_scale(dataArray[d.id][timeInterval]);
+  });
+
+  circles.transition().duration(200).attr("r", function(d) {
+    return d.radius;
+  });
+
+  currentTime.html(timeFormat(timeArray[timeInterval]));
+
+  d3.select('.spb-panthers').html(scores[timeInterval].panthers);
+  d3.select('.spb-broncos').html(scores[timeInterval].broncos);
 }
 
 function charge(d) {

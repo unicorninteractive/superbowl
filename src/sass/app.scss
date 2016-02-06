@@ -22,11 +22,40 @@
 		font-family: "Roboto";
 		font-weight: 100;
 		width: 100%;
-		font-size: 4em;
+		font-size: 3em;
+		line-height: 40px;
 	}
 
 	.spb-timer-slider {
 		width: 100%;
 		display: block;
+	}
+}
+
+.spb-scores {
+	display: flex;
+	width: 100%;
+	height: 100px;
+
+	.spb-panthers {
+		flex: 1;
+		background-color: #1d91ca;
+		text-align: center;
+		line-height: 100px;
+		font-family: "Roboto";
+		font-weight: 200;
+		font-size: 3vw;
+		color: white;
+	}
+
+	.spb-broncos {
+		flex: 1;
+		background-color: #f26a24;
+		text-align: center;
+		line-height: 100px;
+		font-fmaily: "Roboto";
+		font-weight: 200;
+		font-size: 3vw;
+		color: white;
 	}
 }
