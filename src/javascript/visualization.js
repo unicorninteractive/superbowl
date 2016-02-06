@@ -155,8 +155,8 @@ function setGameTime() {
 
   currentTime.html(timeFormat(timeArray[timeInterval]));
 
-  d3.select('.spb-panthers').html(scores[timeInterval].panthers);
-  d3.select('.spb-broncos').html(scores[timeInterval].broncos);
+  d3.select('.spb-panthers .spb-team-score').html(scores[timeInterval].panthers);
+  d3.select('.spb-broncos .spb-team-score').html(scores[timeInterval].broncos);
 }
 
 function charge(d) {

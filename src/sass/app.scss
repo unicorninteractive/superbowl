@@ -48,7 +48,7 @@
 		text-align: center;
 		line-height: 10vw;
 		font-family: "Roboto";
-		font-weight: 200;
+		font-weight: 400;
 		font-size: 3vw;
 		color: white;
 	}
@@ -59,9 +59,26 @@
 		text-align: center;
 		line-height: 10vw;
 		font-family: "Roboto";
-		font-weight: 200;
+		font-weight: 400;
 		font-size: 3vw;
 		color: white;
+	}
+
+	.spb-team-score {
+		text-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+	}
+
+	.spb-team-name-first {
+		text-transform: uppercase;
+		font-size: 1.5vw;
+		display: inline-block;
+		color: rgba(0, 0, 0, 0.5);
+	}
+
+	.spb-team-name-last {
+		text-transform: uppercase;
+		font-size: 1.5vw;
+		display: inline-block;
 	}
 }
 
