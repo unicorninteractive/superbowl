@@ -1,3 +1,5 @@
+require('dialog-polyfill');
+
 var dialog = document.querySelector('dialog');
 var showModalButton = document.querySelector('.show-modal');
 
