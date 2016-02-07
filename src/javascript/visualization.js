@@ -62,7 +62,7 @@ var center = {x: width / 2, y: height / 2};
 
 var fillColor = d3.scale.ordinal()
   .domain(["singer", "panthers", "broncos"])
-  .range(["#f1bb27", "#1d91ca", "#f26a24"]);
+  .range(["#ff4081", "#1d91ca", "#f26a24"]);
 
 // var max_amount = d3.max(data, function(d) { return parseInt(d.total_amount, 10); } );
 radiusScale = d3.scale.pow().exponent(0.5).domain([0, 100]).range([10, 85]);
