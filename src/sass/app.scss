@@ -17,10 +17,19 @@
 		background-position: left 50%;
 	}
 
+	.spb-title {
+		width: 200px;
+		text-align: center;
+	}
+
 	.spb-share {
 		width: 200px;
 		color: white;
 		text-align: right;
+		background-image: url('images/share.svg');
+		background-size: 20px 20px;
+		background-repeat: no-repeat;
+		background-position: 67% center;
 	}
 }
 
@@ -97,6 +106,15 @@
 		.spb-team-name {
 			margin-left: 25px;
 			align-self: center;
+
+
+			.spb-team-name-first {
+				font-size: 14px;
+			}
+
+			.spb-team-name-last {
+				font-size: 14px;
+			}
 		}
 
 		.spb-team-score {
@@ -123,6 +141,14 @@
 			margin-right: 25px;
 			align-self: center;
 			text-align: right;
+
+			.spb-team-name-first {
+				font-size: 14px;
+			}
+
+			.spb-team-name-last {
+				font-size: 14px;
+			}
 		}
 
 		.spb-team-score {
@@ -179,6 +205,15 @@
 
 	.key-singers::before {
 		background-color: #f1bb27;
+	}
+
+	#spb-start {
+		background-color: #f1bb27;
+		color: white;
+
+		&:hover {
+			background-color: darken(#f1bb27, 10%);
+		}
 	}
 }
 

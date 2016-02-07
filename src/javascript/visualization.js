@@ -16,6 +16,8 @@ var dataArray           = {};
 var timeArray           = [];
 var firstDataPoint      = dataset[0];
 
+var isPlaying           = false;
+
 // Process time and datestamps
 for (var x in firstDataPoint) {
   x = parseInt(x, 10);
@@ -29,6 +31,8 @@ currentTime.html(timeFormat(timeArray[timeInterval]));
 slider.setAttribute('max', timeArray.length);
 
 slider.onchange = function() {
+  isPlaying = false;
+  window.clearInterval(intervalTimer);
   timeInterval = parseInt(this.value, 10);
   setGameTime();
 };
@@ -40,6 +44,7 @@ function advanceTimer() {
 }
 
 d3.select("#spb-start").on('click', function(e) {
+  isPlaying = true;
   intervalTimer = window.setInterval(advanceTimer, 200);
 });
 
@@ -217,14 +222,6 @@ function display_years() {
   var years_data = d3.keys(years_x);
   var years = vis.selectAll(".years")
   .data(years_data);
-
-  // years.enter().append("text")
-  //              .attr("class", "years")
-  //              .attr("x", function(d) { return years_x[d]; }  )
-  //              .attr("y", 40)
-  //              .attr("text-anchor", "middle")
-  //              .text(function(d) { return d;});
-
 }
 
 function hide_years() {
