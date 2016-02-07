@@ -43,27 +43,24 @@ d3.select("#spb-start").on('click', function(e) {
   intervalTimer = window.setInterval(advanceTimer, 200);
 });
 
-var width = 940,
-  height = 600,
+clientwidth = d3.select(".spb-visualization").node().getBoundingClientRect().width;
+clientheight = d3.select(".spb-visualization").node().getBoundingClientRect().height;
+
+var width = clientwidth,
+  height = clientheight,
   layout_gravity = -0.01,
   damper = 0.1,
   nodes = [],
-  vis, force, circles, radius_scale;
+  vis, force, circles, radiusScale;
 
 var center = {x: width / 2, y: height / 2};
-
-var year_centers = {
-  "2008": {x: width / 3, y: height / 2},
-  "2009": {x: width / 2, y: height / 2},
-  "2010": {x: 2 * width / 3, y: height / 2}
-};
 
 var fillColor = d3.scale.ordinal()
   .domain(["singer", "panthers", "broncos"])
   .range(["#f1bb27", "#1d91ca", "#f26a24"]);
 
 // var max_amount = d3.max(data, function(d) { return parseInt(d.total_amount, 10); } );
-radius_scale = d3.scale.pow().exponent(0.5).domain([0, 100]).range([2, 85]);
+radiusScale = d3.scale.pow().exponent(0.5).domain([0, 100]).range([10, 85]);
 
 dataset.forEach(function(d) {
   var tempArray = [];
@@ -80,12 +77,14 @@ dataset.forEach(function(d) {
   var node = {
     id: d.id,
     type: d.type,
-    radius: radius_scale(parseFloat(d["1454371200"])),
+    radius: radiusScale(parseFloat(d["1454371200"])),
     name: d.name,
-    x: Math.random() * 900,
-    y: Math.random() * 900
+    x: Math.random() * clientwidth,
+    y: Math.random() * clientheight
   };
-  nodes.push(node);
+
+  if (parseFloat(d["1454371200"]) > 0)
+    nodes.push(node);
 });
 
 // dataset.forEach(function(d){
@@ -146,7 +145,7 @@ function debounce(func, wait, immediate) {
 
 function setGameTime() {
   nodes.forEach(function(d) {
-    d.radius = radius_scale(dataArray[d.id][timeInterval]);
+    d.radius = radiusScale(dataArray[d.id][timeInterval]);
   });
 
   circles.transition().duration(200).attr("r", function(d) {
