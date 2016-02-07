@@ -116,8 +116,8 @@ circles.enter().append ("circle")
   .attr("r", 0)
   .attr("fill", function(d) {return fillColor(d.type) ;})
   .attr("id", function(d) { return  "bubble-" + d.id; })
-  .on("mouseover", function(d, i) {show_details(d, i, this);} )
-  .on("mouseout", function(d, i) {hide_details(d, i, this);} )
+  .on("mouseover", function(d, i) {showDetails(d, i, this);} )
+  .on("mouseout", function(d, i) {hideDetails(d, i, this);} )
   .append("title")
   .text(function(d) {
     return d.name;
@@ -152,14 +152,16 @@ function setGameTime() {
     return d.radius;
   });
 
-  currentTime.html(timeFormat(timeArray[timeInterval]));
-
   d3.select('.spb-panthers .spb-team-score').html(scores[timeInterval].panthers);
   d3.select('.spb-broncos .spb-team-score').html(scores[timeInterval].broncos);
+
+  currentTime.html(timeFormat(timeArray[timeInterval]));
+
+  force.start();
 }
 
 function charge(d) {
-  return -Math.pow(d.radius, 2.0) / 8;
+  return -Math.pow(d.radius, 2.0) / 6;
 }
 
 function start() {
@@ -230,16 +232,17 @@ function hide_years() {
 }
 
 
-function show_details(data, i, element) {
-  // d3.select(element).attr("stroke", "black");
+function showDetails(data, i, element) {
+  d3.select(element).attr("stroke", "#333");
+  d3.select(element).attr("stroke-width", "2px");
   // var content = "<span class=\"name\">Title:</span><span class=\"value\"> " + data.name + "</span><br/>";
   // content +="<span class=\"name\">Amount:</span><span class=\"value\"> $" + addCommas(data.value) + "</span><br/>";
   // content +="<span class=\"name\">Year:</span><span class=\"value\"> " + data.year + "</span>";
   // tooltip.showTooltip(content, d3.event);
 }
 
-function hide_details(data, i, element) {
-  // d3.select(element).attr("stroke", function(d) { return d3.rgb(fill_color(d.group)).darker();} );
+function hideDetails(data, i, element) {
+  d3.select(element).attr("stroke", function(d) { console.log(d);return fillColor(d.type);});
   // tooltip.hideTooltip();
 }
 
