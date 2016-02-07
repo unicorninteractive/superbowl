@@ -117,12 +117,15 @@ vis = d3.select(".spb-visualization").append("svg")
 circles = vis.selectAll("circle")
   .data(nodes, function(d) { return d.id ;});
 
-circles.enter().append ("circle")
+circles.enter().append("circle")
   .attr("r", 0)
   .attr("fill", function(d) {return fillColor(d.type) ;})
   .attr("id", function(d) { return  "bubble-" + d.id; })
   .on("mouseover", function(d, i) {showDetails(d, i, this);} )
   .on("mouseout", function(d, i) {hideDetails(d, i, this);} )
+  // .append("text")
+  // .attr("dx", function(d){return -20;})
+  // .text(function(d){return d.name;});
   .append("title")
   .text(function(d) {
     return d.name;
