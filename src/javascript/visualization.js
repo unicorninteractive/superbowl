@@ -18,6 +18,9 @@ var firstDataPoint      = dataset[0];
 
 var isPlaying           = false;
 
+var context;
+var image               = new Image();
+
 // Process time and datestamps
 for (var x in firstDataPoint) {
   x = parseInt(x, 10);
@@ -43,6 +46,8 @@ function advanceTimer() {
   setGameTime();
 }
 
+image.src = "/images/portrait.png";
+
 d3.select("#spb-start").on('click', function(e) {
   isPlaying = true;
   intervalTimer = window.setInterval(advanceTimer, 200);
@@ -65,7 +70,7 @@ var fillColor = d3.scale.ordinal()
   .range(["#ff4081", "#1d91ca", "#f26a24"]);
 
 // var max_amount = d3.max(data, function(d) { return parseInt(d.total_amount, 10); } );
-radiusScale = d3.scale.pow().exponent(0.5).domain([0, 100]).range([10, 85]);
+radiusScale = d3.scale.pow().exponent(0.19).domain([0, 100]).range([10, 85]);
 
 dataset.forEach(function(d) {
   var tempArray = [];
@@ -109,31 +114,33 @@ dataset.forEach(function(d) {
 
 nodes.sort(function(a, b) {return b.value- a.value; });
 
-vis = d3.select(".spb-visualization").append("svg")
+vis = d3.select(".spb-visualization").append("canvas")
   .attr("width", width)
   .attr("height", height)
   .attr("id", "svg_vis");
 
-circles = vis.selectAll("circle")
-  .data(nodes, function(d) { return d.id ;});
+context = vis.node().getContext("2d");
 
-circles.enter().append("circle")
-  .attr("r", 0)
-  .attr("fill", function(d) {return fillColor(d.type) ;})
-  .attr("id", function(d) { return  "bubble-" + d.id; })
-  .on("mouseover", function(d, i) {showDetails(d, i, this);} )
-  .on("mouseout", function(d, i) {hideDetails(d, i, this);} )
-  // .append("text")
-  // .attr("dx", function(d){return -20;})
-  // .text(function(d){return d.name;});
-  .append("title")
-  .text(function(d) {
-    return d.name;
-  });
+// circles = vis.selectAll("circle")
+//   .data(nodes, function(d) { return d.id ;});
 
-circles.transition().duration(1000).attr("r", function(d) {
-  return d.radius;
-});
+// circles.enter().append("circle")
+//   .attr("r", 0)
+//   .attr("fill", function(d) {
+//     return fillColor(d.type);
+//   })
+//   .attr("stroke-width", "4px")
+//   .attr("stroke", "blue")
+//   .attr("id", function(d) { return  "bubble-" + d.id; })
+//   .on("mouseover", function(d, i) {showDetails(d, i, this);} )
+//   .on("mouseout", function(d, i) {hideDetails(d, i, this);} )
+//   // .append("text")
+//   // .attr("dx", function(d){return -20;})
+//   // .text(function(d){return d.name;});
+//   .append("title")
+//   .text(function(d) {
+//     return d.name;
+//   });
 
 // Debounce function for intensive drawing operations
 function debounce(func, wait, immediate) {
@@ -156,10 +163,6 @@ function setGameTime() {
     d.radius = radiusScale(dataArray[d.id][timeInterval]);
   });
 
-  circles.transition().duration(200).attr("r", function(d) {
-    return d.radius;
-  });
-
   d3.select('.spb-panthers .spb-team-score').html(scores[timeInterval].panthers);
   d3.select('.spb-broncos .spb-team-score').html(scores[timeInterval].broncos);
 
@@ -171,66 +174,6 @@ function setGameTime() {
 function charge(d) {
   return -Math.pow(d.radius, 2.0) / 6;
 }
-
-function start() {
-  force = d3.layout.force()
-  .nodes(nodes)
-  .size([width, height]);
-}
-
-function display_group_all() {
-  force.gravity(layout_gravity)
-  .charge(charge)
-  .friction(0.9)
-  .on("tick", function(e) {
-    circles.each(move_towards_center(e.alpha))
-    .attr("cx", function(d) {return d.x;})
-    .attr("cy", function(d) {return d.y;});
-  });
-  force.start();
-  hide_years();
-}
-
-function move_towards_center(alpha) {
-  return function(d) {
-    d.x = d.x + (center.x - d.x) * (damper + 0.02) * alpha;
-    d.y = d.y + (center.y - d.y) * (damper + 0.02) * alpha;
-  };
-}
-
-function display_by_year() {
-  force.gravity(layout_gravity)
-  .charge(charge)
-  .friction(0.9)
-  .on("tick", function(e) {
-    circles.each(move_towards_year(e.alpha))
-    .attr("cx", function(d) {return d.x;})
-    .attr("cy", function(d) {return d.y;});
-  });
-  force.start();
-  display_years();
-}
-
-function move_towards_year(alpha) {
-  return function(d) {
-    var target = year_centers[d.year];
-    d.x = d.x + (target.x - d.x) * (damper + 0.02) * alpha * 1.1;
-    d.y = d.y + (target.y - d.y) * (damper + 0.02) * alpha * 1.1;
-  };
-}
-
-
-function display_years() {
-  var years_x = {"2008": 160, "2009": width / 2, "2010": width - 160};
-  var years_data = d3.keys(years_x);
-  var years = vis.selectAll(".years")
-  .data(years_data);
-}
-
-function hide_years() {
-  var years = vis.selectAll(".years").remove();
-}
-
 
 function showDetails(data, i, element) {
   d3.select(element).attr("stroke", "#333");
@@ -246,8 +189,35 @@ function hideDetails(data, i, element) {
   // tooltip.hideTooltip();
 }
 
-start();
-display_group_all();
+function tick(alpha) {
+  context.clearRect(0, 0, width, height);
+  nodes.forEach(function(d) {
+    context.beginPath();
+    context.fillStyle = fillColor(d.type);
+    d.x = d.x + (center.x - d.x) * (damper + 0.02) * alpha;
+    d.y = d.y + (center.y - d.y) * (damper + 0.02) * alpha;
+    context.moveTo(d.x, d.y);
+    context.arc(d.x, d.y, d.radius, 0, Math.PI * 2);
+    context.closePath();
+    // context.clip();
+    context.fill();
+    context.drawImage(image, d.x - d.radius, d.y - d.radius, d.radius * 2, d.radius * 2);
+  });
+}
+
+force = d3.layout.force()
+  .nodes(nodes)
+  .size([width, height])
+  .gravity(layout_gravity)
+  .charge(charge)
+  .friction(0.9)
+  .on("tick", function(e) {
+    tick(e.alpha);
+    // circles.each(move_towards_center(e.alpha))
+    // .attr("cx", function(d) {return d.x;})
+    // .attr("cy", function(d) {return d.y;});
+  })
+  .start();
 
 // Share buttons
 d3.select('.spb-twitter-share').on('click', function() {
@@ -270,3 +240,12 @@ d3.select('.spb-facebook-share').on('click', function() {
   var href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURI(url);
   window.open(href, "tweet", "height=" + h + ",width=" + w + ",top=" + top + ",left=" + left + ",resizable=1");
 });
+
+var redrawGraph = debounce(function() {
+  clientwidth = d3.select(".spb-visualization").node().getBoundingClientRect().width;
+  clientheight = d3.select(".spb-visualization").node().getBoundingClientRect().height;
+  context.clearRect(0, 0, clientwidth, clientheight);
+  force.start();
+}, 500);
+
+window.addEventListener('resize', redrawGraph);
