@@ -57,7 +57,16 @@ function advanceTimer() {
   }
 }
 
-d3.select("#spb-start").on('click', function(e) {
+d3.select("#spb-splash-start").on('click', function() {
+  d3.select(".spb-splash").remove();
+  startTimer();
+});
+
+d3.select("#spb-start").on('click', function() {
+  startTimer();
+});
+
+function startTimer() {
   isPlaying = true;
 
   if (timeInterval == 240) {
@@ -66,15 +75,15 @@ d3.select("#spb-start").on('click', function(e) {
   }
 
   window.clearInterval(intervalTimer);
-  intervalTimer = window.setInterval(advanceTimer, 200);
-});
+  intervalTimer = window.setInterval(advanceTimer, 125);
+}
 
 var width = d3.select(".spb-visualization").node().getBoundingClientRect().width,
   height = width * 0.9,
   layout_gravity = -0.01,
   damper = 0.1,
   nodes = [],
-  vis, force, circles, radiusScale;
+  vis, force, radiusScale;
 
 var center = {x: width / 2, y: height / 2};
 
@@ -120,7 +129,6 @@ vis = d3.select(".spb-visualization").append("canvas")
 
 context = vis.node().getContext("2d");
 
-// Debounce function for intensive drawing operations
 function debounce(func, wait, immediate) {
     var timeout;
     return function() {
