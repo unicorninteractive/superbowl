@@ -56,6 +56,7 @@ image.src = "/images/portrait.png";
 
 d3.select("#spb-start").on('click', function(e) {
   isPlaying = true;
+  window.clearInterval(intervalTimer);
   intervalTimer = window.setInterval(advanceTimer, 200);
 });
 
@@ -72,8 +73,7 @@ var fillColor = d3.scale.ordinal()
   .domain(["singer", "panthers", "broncos"])
   .range(["#ff4081", "#1d91ca", "#f26a24"]);
 
-// var max_amount = d3.max(data, function(d) { return parseInt(d.total_amount, 10); } );
-radiusScale = d3.scale.pow().exponent(0.19).domain([0, 100]).range([10, 85]);
+radiusScale = d3.scale.pow().exponent(0.3).domain([0, 100]).range([10, width/6]);
 
 dataset.forEach(function(d) {
   var tempArray = [];
@@ -214,20 +214,21 @@ d3.select('.spb-facebook-share').on('click', function() {
 });
 
 var redrawGraph = debounce(function() {
-  // force.stop();
   context.clearRect(0, 0, width, height);
   width = d3.select(".spb-visualization").node().getBoundingClientRect().width;
   height = width * 0.9;
 
-  vis.attr('width', width).attr('height', height).style('height', height + 'px');
+  vis.attr('width', width).attr('height', height).style('width', width + 'px').style('height', height + 'px');
 
+  radiusScale = d3.scale.pow().exponent(0.3).domain([0, 100]).range([10, width/6]);
   center = {x: width / 2, y: height / 2};
-  force.size([width, height]).resume();
 
-  console.log(width);
-  // console.log(width);
-  // console.log(force.size());
-  // force.start();
+  nodes.forEach(function(d) {
+    d.radius = radiusScale(dataArray[d.id][timeInterval]);
+  });
+
+  force.size([width, height]).resume();
+  force.start();
 }, 125);
 
 window.addEventListener('resize', redrawGraph);
