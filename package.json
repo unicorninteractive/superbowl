@@ -1,13 +1,12 @@
 {
-  "name": "interactive-template",
+  "name": "unicorn-superbowl",
   "version": "1.0.0",
   "license": "MIT",
-  "previewUrl": "http://interactive.fusion.net/interactive-template/",
-  "publishUrl": "gs://interactive.fusion.net/interactive-template/",
+  "previewUrl": "http://unicorninteractive.github.io/superbowl/",
   "description": "",
   "repository": {
     "type": "git",
-    "url": "git://github.com/fusioneng/interactive-template.git"
+    "url": "git://github.com/unicorninteractive/superbowl.git"
   },
   "browserify": {
     "transform": [
