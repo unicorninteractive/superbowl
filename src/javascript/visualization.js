@@ -155,11 +155,17 @@ function tick(alpha) {
     context.moveTo(d.x, d.y);
     context.arc(d.x, d.y, d.radius, 0, PI_TIMES_TWO);
     context.closePath();
+    context.fillStyle = fillColor(d.type);
     context.lineWidth = 8;
     context.strokeStyle = fillColor(d.type);
     context.stroke();
     context.clip();
-    context.drawImage(image, d.imageX, d.imageY, 150, 150, d.x - d.radius, d.y - d.radius, d.radius * 2, d.radius * 2);
+
+    context.fill();
+
+    if (d.imageX.length !== 0)
+      context.drawImage(image, d.imageX, d.imageY, 150, 150, d.x - d.radius, d.y - d.radius, d.radius * 2, d.radius * 2);
+
     context.restore();
   });
 }
