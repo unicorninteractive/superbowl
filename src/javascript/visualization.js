@@ -49,9 +49,13 @@ slider.onchange = function() {
 };
 
 function advanceTimer() {
-  timeInterval++;
-  slider.MaterialSlider.change(timeInterval);
-  setGameTime();
+  if (timeInterval < (timeArray.length - 1)) {
+    timeInterval++;
+    slider.MaterialSlider.change(timeInterval);
+    setGameTime();
+  } else {
+    window.clearInterval(intervalTimer);
+  }
 }
 
 image.src = "/images/spritesheet.jpg";
