@@ -75,7 +75,7 @@ var fillColor = d3.scale.ordinal()
   .domain(["singer", "panthers", "broncos"])
   .range(["#ff4081", "#1d91ca", "#f26a24"]);
 
-radiusScale = d3.scale.pow().exponent(0.3).domain([0, 100]).range([10, width/6]);
+radiusScale = d3.scale.pow().exponent(0.3).domain([0, 100]).range([10, width/4]);
 
 dataset.forEach(function(d) {
   var tempArray = [];
@@ -193,7 +193,7 @@ d3.select("body").on("keyup", function() {
 // Share buttons
 d3.select('.spb-twitter-share').on('click', function() {
   var shareText = "Replay the %23SuperBowl with this interactive from @GoogleTrends";
-  var url = "http://googletrends.github.io/2016-superbowl/";
+  var url = "http://googletrends.github.io/superbowl/";
   var w = 550;
   var h = 300;
   var top = (screen.height / 2) - (h / 2);
@@ -204,7 +204,7 @@ d3.select('.spb-twitter-share').on('click', function() {
 
 d3.select('.spb-google-share').on('click', function() {
     var shareText = "Replay the %23SuperBowl with this interactive from @GoogleTrends";
-    var url = "http://googletrends.github.io/2016-superbowl/";
+    var url = "http://googletrends.github.io/superbowl/";
     var w = 600;
     var h = 600;
     var top = (screen.height / 2) - (h / 2);
@@ -214,7 +214,7 @@ d3.select('.spb-google-share').on('click', function() {
 });
 
 d3.select('.spb-facebook-share').on('click', function() {
-  var url = "http://googletrends.github.io/2016-state-of-the-union/";
+  var url = "http://googletrends.github.io/superbowl/";
   var w = 600;
   var h = 400;
   var top = (screen.height / 2) - (h / 2);
@@ -230,7 +230,7 @@ var redrawGraph = debounce(function() {
 
   vis.attr('width', width).attr('height', height).style('width', width + 'px').style('height', height + 'px');
 
-  radiusScale = d3.scale.pow().exponent(0.3).domain([0, 100]).range([10, width/6]);
+  radiusScale = d3.scale.pow().exponent(0.3).domain([0, 100]).range([10, width/4]);
   center = {x: width / 2, y: height / 2};
 
   nodes.forEach(function(d) {
