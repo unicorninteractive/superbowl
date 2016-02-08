@@ -138,6 +138,10 @@ function setGameTime() {
     d.radius = radiusScale(dataArray[d.id][timeInterval]);
   });
 
+  events.forEach(function(d) {
+    console.log(d);
+  });
+
   d3.select('.spb-panthers .spb-team-score').html(scores[timeInterval].panthers);
   d3.select('.spb-broncos .spb-team-score').html(scores[timeInterval].broncos);
 
