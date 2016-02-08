@@ -21,7 +21,8 @@ var isPlaying           = false;
 var context;
 var image               = new Image();
 
-// Process time and datestamps
+const PI_TIMES_TWO      = 6.283185307179586;
+
 for (var x in firstDataPoint) {
   x = parseInt(x, 10);
   if (Number.isInteger(x)) {
@@ -31,7 +32,7 @@ for (var x in firstDataPoint) {
 
 currentTime.html(timeFormat(timeArray[timeInterval]));
 
-slider.setAttribute('max', timeArray.length);
+slider.setAttribute('max', timeArray.length - 1);
 
 slider.onclick = function() {
   isPlaying = false;
@@ -58,11 +59,8 @@ d3.select("#spb-start").on('click', function(e) {
   intervalTimer = window.setInterval(advanceTimer, 200);
 });
 
-clientwidth = d3.select(".spb-visualization").node().getBoundingClientRect().width;
-clientheight = d3.select(".spb-visualization").node().getBoundingClientRect().height;
-
-var width = clientwidth,
-  height = clientheight,
+var width = d3.select(".spb-visualization").node().getBoundingClientRect().width,
+  height = d3.select(".spb-visualization").node().getBoundingClientRect().height,
   layout_gravity = -0.01,
   damper = 0.1,
   nodes = [],
@@ -94,28 +92,13 @@ dataset.forEach(function(d) {
     type: d.type,
     radius: radiusScale(parseFloat(d["1454371200"])),
     name: d.name,
-    x: Math.random() * clientwidth,
-    y: Math.random() * clientheight
+    x: Math.random() * width,
+    y: Math.random() * height
   };
 
   if (parseFloat(d["1454371200"]) > 0)
     nodes.push(node);
 });
-
-// dataset.forEach(function(d){
-//   var node = {
-//     id: d.id,
-//     radius: radius_scale(parseInt(d.total_amount, 10)),
-//     value: d.total_amount,
-//     name: d.grant_title,
-//     org: d.organization,
-//     group: d.group,
-//     year: d.start_year,
-//     x: Math.random() * 900,
-//     y: Math.random() * 800
-//   };
-//   nodes.push(node);
-// });
 
 nodes.sort(function(a, b) {return b.value- a.value; });
 
@@ -151,7 +134,6 @@ function setGameTime() {
   d3.select('.spb-broncos .spb-team-score').html(scores[timeInterval].broncos);
 
   currentTime.html(timeFormat(timeArray[timeInterval]));
-
   force.start();
 }
 
@@ -159,33 +141,22 @@ function charge(d) {
   return -Math.pow(d.radius, 2.0) / 6;
 }
 
-function showDetails(data, i, element) {
-  d3.select(element).attr("stroke", "#333");
-  d3.select(element).attr("stroke-width", "2px");
-  // var content = "<span class=\"name\">Title:</span><span class=\"value\"> " + data.name + "</span><br/>";
-  // content +="<span class=\"name\">Amount:</span><span class=\"value\"> $" + addCommas(data.value) + "</span><br/>";
-  // content +="<span class=\"name\">Year:</span><span class=\"value\"> " + data.year + "</span>";
-  // tooltip.showTooltip(content, d3.event);
-}
-
-function hideDetails(data, i, element) {
-  d3.select(element).attr("stroke", function(d) { console.log(d);return fillColor(d.type);});
-  // tooltip.hideTooltip();
-}
-
 function tick(alpha) {
   context.clearRect(0, 0, width, height);
   nodes.forEach(function(d) {
+    context.save();
     context.beginPath();
-    context.fillStyle = fillColor(d.type);
     d.x = d.x + (center.x - d.x) * (damper + 0.02) * alpha;
     d.y = d.y + (center.y - d.y) * (damper + 0.02) * alpha;
     context.moveTo(d.x, d.y);
-    context.arc(d.x, d.y, d.radius, 0, Math.PI * 2);
+    context.arc(d.x, d.y, d.radius, 0, PI_TIMES_TWO);
     context.closePath();
-    // context.clip();
-    context.fill();
+    context.lineWidth = 6;
+    context.strokeStyle = fillColor(d.type);
+    context.stroke();
+    context.clip();
     context.drawImage(image, d.x - d.radius, d.y - d.radius, d.radius * 2, d.radius * 2);
+    context.restore();
   });
 }
 
@@ -197,11 +168,16 @@ force = d3.layout.force()
   .friction(0.9)
   .on("tick", function(e) {
     tick(e.alpha);
-    // circles.each(move_towards_center(e.alpha))
-    // .attr("cx", function(d) {return d.x;})
-    // .attr("cy", function(d) {return d.y;});
   })
   .start();
+
+d3.select("body").on("keyup", function() {
+  if (d3.event.keyCode == 27) {
+    isPlaying = false;
+    window.clearInterval(intervalTimer);
+    setGameTime();
+  }
+});
 
 // Share buttons
 d3.select('.spb-twitter-share').on('click', function() {
@@ -212,7 +188,18 @@ d3.select('.spb-twitter-share').on('click', function() {
   var top = (screen.height / 2) - (h / 2);
   var left = (screen.width / 2) - (w / 2);
   var href = "http://twitter.com/share?text=" + shareText + "&url=" + encodeURI(url);
-  window.open(href, "tweet", "height=" + h + ",width=" + w + ",top=" + top + ",left=" + left + ",resizable=1");
+  window.open(href, "twitter", "height=" + h + ",width=" + w + ",top=" + top + ",left=" + left + ",resizable=1");
+});
+
+d3.select('.spb-google-share').on('click', function() {
+    var shareText = "Replay the %23SuperBowl with this interactive from @GoogleTrends";
+    var url = "http://googletrends.github.io/2016-superbowl/";
+    var w = 600;
+    var h = 600;
+    var top = (screen.height / 2) - (h / 2);
+    var left = (screen.width / 2) - (w / 2);
+    var href = "https://plus.google.com/share?url=" + encodeURI(url);
+    window.open(href, "google-plus", "height=" + h + ",width=" + w + ",top=" + top + ",left=" + left + ",resizable=1");
 });
 
 d3.select('.spb-facebook-share').on('click', function() {
@@ -222,14 +209,16 @@ d3.select('.spb-facebook-share').on('click', function() {
   var top = (screen.height / 2) - (h / 2);
   var left = (screen.width / 2) - (w / 2);
   var href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURI(url);
-  window.open(href, "tweet", "height=" + h + ",width=" + w + ",top=" + top + ",left=" + left + ",resizable=1");
+  window.open(href, "facebook", "height=" + h + ",width=" + w + ",top=" + top + ",left=" + left + ",resizable=1");
 });
 
 var redrawGraph = debounce(function() {
-  clientwidth = d3.select(".spb-visualization").node().getBoundingClientRect().width;
-  clientheight = d3.select(".spb-visualization").node().getBoundingClientRect().height;
-  context.clearRect(0, 0, clientwidth, clientheight);
-  force.start();
+  width = d3.select(".spb-visualization").node().getBoundingClientRect().width;
+  height = d3.select(".spb-visualization").node().getBoundingClientRect().height;
+  force.size([width, height]).resume();
+  console.log(width);
+  console.log(force.size);
+  // force.start();
 }, 500);
 
 window.addEventListener('resize', redrawGraph);
