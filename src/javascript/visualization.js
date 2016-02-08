@@ -90,7 +90,7 @@ dataset.forEach(function(d) {
   var node = {
     id: d.id,
     type: d.type,
-    radius: radiusScale(parseFloat(d["1454371200"])),
+    radius: radiusScale(parseFloat(d["1454869800"])),
     name: d.name,
     x: Math.random() * width,
     y: Math.random() * height,
