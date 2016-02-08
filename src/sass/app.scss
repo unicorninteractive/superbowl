@@ -214,6 +214,10 @@ $turoquise: #00bcd4;
 		color: white;
 	}
 
+	.spb-explainer-light {
+		font-weight: 200;
+	}
+
 	ul {
 		margin: 0;
 		margin-bottom: 30px;
@@ -228,6 +232,10 @@ $turoquise: #00bcd4;
 		width: 10px;
 		margin-right: 5px;
 		border-radius: 5px;
+	}
+
+	li {
+		font-weight: 200;
 	}
 
 	.key-panthers::before {
