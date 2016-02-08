@@ -186,9 +186,6 @@ function tick(alpha) {
     context.fillStyle = 'white';
     context.fillText(d.name, d.x - d.radius, d.y);
 
-    // if (d.imageX.length !== 0)
-    //   context.drawImage(image, d.imageX, d.imageY, 150, 150, d.x - d.radius, d.y - d.radius, d.radius * 2, d.radius * 2);
-
     context.restore();
   });
 }

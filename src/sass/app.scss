@@ -26,13 +26,13 @@ $turoquise: #00bcd4;
 	}
 
 	.spb-share {
-		width: 200px;
+		width: 140px;
 		color: white;
 		text-align: right;
 		background-image: url('images/share.svg');
 		background-size: 20px 20px;
 		background-repeat: no-repeat;
-		background-position: 67% center;
+		background-position: 54% center;
 	}
 }
 
@@ -42,8 +42,12 @@ $turoquise: #00bcd4;
 		display: none;
 	}
 
+	.spb-title {
+		text-align: left !important;
+	}
+
 	.spb-share {
-		width: 180px !important;
+		width: 140px !important;
 	}
 
 }
