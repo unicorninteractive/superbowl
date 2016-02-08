@@ -144,15 +144,17 @@ function setGameTime() {
     d.radius = radiusScale(dataArray[d.id][timeInterval]);
   });
 
-  var title;
+  var title, description;
 
   events.forEach(function(d) {
     if (d.minute < timeInterval) {
       title = d.title;
+      description = d.content;
     }
   });
 
   d3.select('#spb-event-title').html(title);
+  d3.select('#spb-event-description').html(description);
 
   d3.select('.spb-panthers .spb-team-score').html(scores[timeInterval].panthers);
   d3.select('.spb-broncos .spb-team-score').html(scores[timeInterval].broncos);
