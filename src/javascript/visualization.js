@@ -62,6 +62,12 @@ image.src = "/images/spritesheet.jpg";
 
 d3.select("#spb-start").on('click', function(e) {
   isPlaying = true;
+
+  if (timeInterval == 240) {
+    timeInterval = 0;
+    slider.MaterialSlider.change(timeInterval);
+  }
+
   window.clearInterval(intervalTimer);
   intervalTimer = window.setInterval(advanceTimer, 200);
 });
@@ -138,9 +144,15 @@ function setGameTime() {
     d.radius = radiusScale(dataArray[d.id][timeInterval]);
   });
 
+  var title;
+
   events.forEach(function(d) {
-    console.log(d);
+    if (d.minute < timeInterval) {
+      title = d.title;
+    }
   });
+
+  d3.select('#spb-event-title').html(title);
 
   d3.select('.spb-panthers .spb-team-score').html(scores[timeInterval].panthers);
   d3.select('.spb-broncos .spb-team-score').html(scores[timeInterval].broncos);
