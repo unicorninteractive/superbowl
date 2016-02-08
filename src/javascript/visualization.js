@@ -1,6 +1,4 @@
 var d3                  = require('d3');
-
-var data                = require('./data.csv');
 var dataset             = require('./dataset.csv');
 
 var scores              = require('./scores.json').scores;
@@ -54,7 +52,7 @@ function advanceTimer() {
   setGameTime();
 }
 
-image.src = "/images/portrait.png";
+image.src = "/images/spritesheet.jpg";
 
 d3.select("#spb-start").on('click', function(e) {
   isPlaying = true;
@@ -95,8 +93,12 @@ dataset.forEach(function(d) {
     radius: radiusScale(parseFloat(d["1454371200"])),
     name: d.name,
     x: Math.random() * width,
-    y: Math.random() * height
+    y: Math.random() * height,
+    imageX: d.imagex,
+    imageY: d.imagey
   };
+
+  console.log(node);
 
   if (parseFloat(d["1454371200"]) > 0)
     nodes.push(node);
@@ -158,7 +160,7 @@ function tick(alpha) {
     context.strokeStyle = fillColor(d.type);
     context.stroke();
     context.clip();
-    context.drawImage(image, d.x - d.radius, d.y - d.radius, d.radius * 2, d.radius * 2);
+    context.drawImage(image, 0, 0, 150, 150, d.x - d.radius, d.y - d.radius, d.radius * 2, d.radius * 2);
     context.restore();
   });
 }
