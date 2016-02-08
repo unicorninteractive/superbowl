@@ -3,6 +3,7 @@
 @import "dialog";
 
 $yellow: #f9df4f;
+$turoquise: #00bcd4;
 
 .spb-header-row {
 	justify-content: space-between;
@@ -51,7 +52,7 @@ $yellow: #f9df4f;
 	height: 60px;
 	color: white;
 	text-align: center;
-	background-color: #00bcd4 !important;
+	background-color: $turoquise !important;
 
 	.spb-timer-counter {
 		display: flex;
@@ -201,6 +202,16 @@ $yellow: #f9df4f;
 }
 
 .spb-explainer {
+
+	.mdl-card__title {
+		background-color: $turoquise;
+	}
+
+	#spb-start {
+		background-color: $turoquise;
+		color: white;
+	}
+
 	ul {
 		margin: 0;
 		margin-bottom: 30px;
