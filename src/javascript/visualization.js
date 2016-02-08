@@ -21,9 +21,8 @@ var firstDataPoint      = dataset[0];
 var isPlaying           = false;
 
 var context;
-var image               = new Image();
 
-var PI_TIMES_TWO      = 6.283185307179586;
+var PI_TIMES_TWO        = 6.283185307179586;
 
 for (var x in firstDataPoint) {
   x = parseInt(x, 10);
@@ -57,8 +56,6 @@ function advanceTimer() {
     window.clearInterval(intervalTimer);
   }
 }
-
-image.src = "/images/spritesheet.jpg";
 
 d3.select("#spb-start").on('click', function(e) {
   isPlaying = true;
@@ -169,6 +166,7 @@ function charge(d) {
 
 function tick(alpha) {
   context.clearRect(0, 0, width, height);
+  // context.font = "regular 12pt Roboto";
 
   nodes.forEach(function(d) {
     context.save();
@@ -185,9 +183,11 @@ function tick(alpha) {
     context.clip();
 
     context.fill();
+    context.fillStyle = 'white';
+    context.fillText(d.name, d.x - d.radius, d.y);
 
-    if (d.imageX.length !== 0)
-      context.drawImage(image, d.imageX, d.imageY, 150, 150, d.x - d.radius, d.y - d.radius, d.radius * 2, d.radius * 2);
+    // if (d.imageX.length !== 0)
+    //   context.drawImage(image, d.imageX, d.imageY, 150, 150, d.x - d.radius, d.y - d.radius, d.radius * 2, d.radius * 2);
 
     context.restore();
   });
