@@ -178,7 +178,6 @@ $yellow: #f9df4f;
 		display: block;
 		color: rgba(0, 0, 0, 0.5);
 		height: 20px;
-		margin-left: 10px;
 	}
 
 	.spb-team-name-last {
@@ -192,6 +191,7 @@ $yellow: #f9df4f;
 .spb-explainer {
 	ul {
 		margin: 0;
+		margin-bottom: 30px;
 		list-style-type: none;
 		padding: 0;
 	}

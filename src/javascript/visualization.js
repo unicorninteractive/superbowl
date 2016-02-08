@@ -2,7 +2,9 @@ var d3                  = require('d3');
 
 var data                = require('./data.csv');
 var dataset             = require('./dataset.csv');
+
 var scores              = require('./scores.json').scores;
+var events              = require('./events.json').events;
 
 var slider              = document.getElementById("spb-slider");
 var currentTime         = d3.select(".spb-timer-counter-left");
@@ -152,7 +154,7 @@ function tick(alpha) {
     context.moveTo(d.x, d.y);
     context.arc(d.x, d.y, d.radius, 0, PI_TIMES_TWO);
     context.closePath();
-    context.lineWidth = 6;
+    context.lineWidth = 8;
     context.strokeStyle = fillColor(d.type);
     context.stroke();
     context.clip();
