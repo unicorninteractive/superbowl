@@ -77,7 +77,6 @@ radiusScale = d3.scale.pow().exponent(0.3).domain([0, 100]).range([10, width/6])
 
 dataset.forEach(function(d) {
   var tempArray = [];
-
   for (var i in d) {
     var value = parseFloat(d[i]);
     if (!isNaN(value)) {
@@ -90,7 +89,7 @@ dataset.forEach(function(d) {
   var node = {
     id: d.id,
     type: d.type,
-    radius: radiusScale(parseFloat(d["1454869800"])),
+    radius: radiusScale(parseFloat(d["1454887800"])),
     name: d.name,
     x: Math.random() * width,
     y: Math.random() * height,
@@ -98,7 +97,7 @@ dataset.forEach(function(d) {
     imageY: d.imagey
   };
 
-  if (parseFloat(d["1454371200"]) > 0) {
+  if (parseFloat(d["1454887800"]) > 0.008) {
     nodes.push(node);
   }
 });
