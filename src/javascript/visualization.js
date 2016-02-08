@@ -1,6 +1,8 @@
 var d3                  = require('d3');
 var dataset             = require('./dataset.csv');
 
+var moment              = require('moment');
+
 var scores              = require('./scores.json').scores;
 var events              = require('./events.json').events;
 
@@ -30,7 +32,7 @@ for (var x in firstDataPoint) {
   }
 }
 
-currentTime.html(timeFormat(timeArray[timeInterval]));
+currentTime.html(moment.utc(timeArray[timeInterval]).format("h:mm"));
 
 slider.setAttribute('max', timeArray.length - 1);
 
@@ -89,7 +91,7 @@ dataset.forEach(function(d) {
   var node = {
     id: d.id,
     type: d.type,
-    radius: radiusScale(parseFloat(d["1454887800"])),
+    radius: radiusScale(parseFloat(d["1454869800"])),
     name: d.name,
     x: Math.random() * width,
     y: Math.random() * height,
@@ -97,7 +99,7 @@ dataset.forEach(function(d) {
     imageY: d.imagey
   };
 
-  if (parseFloat(d["1454887800"]) > 0.008) {
+  if (parseFloat(d["1454869800"]) > 0.008) {
     nodes.push(node);
   }
 });
@@ -135,7 +137,7 @@ function setGameTime() {
   d3.select('.spb-panthers .spb-team-score').html(scores[timeInterval].panthers);
   d3.select('.spb-broncos .spb-team-score').html(scores[timeInterval].broncos);
 
-  currentTime.html(timeFormat(timeArray[timeInterval]));
+  currentTime.html(moment.utc(timeArray[timeInterval]).format("h:mm"))
   force.start();
 }
 

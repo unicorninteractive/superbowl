@@ -41,6 +41,7 @@
     "d3": "^3.5.14",
     "dialog-polyfill": "^0.4.2",
     "jquery": "*",
-    "material-design-lite": "^1.1.0"
+    "material-design-lite": "^1.1.0",
+    "moment": "^2.11.2"
   }
 }
