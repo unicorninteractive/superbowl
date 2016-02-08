@@ -98,10 +98,9 @@ dataset.forEach(function(d) {
     imageY: d.imagey
   };
 
-  console.log(node);
-
-  if (parseFloat(d["1454371200"]) > 0)
+  if (parseFloat(d["1454371200"]) > 0) {
     nodes.push(node);
+  }
 });
 
 nodes.sort(function(a, b) {return b.value- a.value; });
@@ -160,7 +159,7 @@ function tick(alpha) {
     context.strokeStyle = fillColor(d.type);
     context.stroke();
     context.clip();
-    context.drawImage(image, 0, 0, 150, 150, d.x - d.radius, d.y - d.radius, d.radius * 2, d.radius * 2);
+    context.drawImage(image, d.imageX, d.imageY, 150, 150, d.x - d.radius, d.y - d.radius, d.radius * 2, d.radius * 2);
     context.restore();
   });
 }
