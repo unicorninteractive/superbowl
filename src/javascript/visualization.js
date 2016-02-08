@@ -21,7 +21,7 @@ var isPlaying           = false;
 var context;
 var image               = new Image();
 
-const PI_TIMES_TWO      = 6.283185307179586;
+var PI_TIMES_TWO      = 6.283185307179586;
 
 for (var x in firstDataPoint) {
   x = parseInt(x, 10);
@@ -60,7 +60,7 @@ d3.select("#spb-start").on('click', function(e) {
 });
 
 var width = d3.select(".spb-visualization").node().getBoundingClientRect().width,
-  height = d3.select(".spb-visualization").node().getBoundingClientRect().height,
+  height = width * 0.9,
   layout_gravity = -0.01,
   damper = 0.1,
   nodes = [],
@@ -143,6 +143,7 @@ function charge(d) {
 
 function tick(alpha) {
   context.clearRect(0, 0, width, height);
+
   nodes.forEach(function(d) {
     context.save();
     context.beginPath();
@@ -213,12 +214,20 @@ d3.select('.spb-facebook-share').on('click', function() {
 });
 
 var redrawGraph = debounce(function() {
+  // force.stop();
+  context.clearRect(0, 0, width, height);
   width = d3.select(".spb-visualization").node().getBoundingClientRect().width;
-  height = d3.select(".spb-visualization").node().getBoundingClientRect().height;
+  height = width * 0.9;
+
+  vis.attr('width', width).attr('height', height).style('height', height + 'px');
+
+  center = {x: width / 2, y: height / 2};
   force.size([width, height]).resume();
+
   console.log(width);
-  console.log(force.size);
+  // console.log(width);
+  // console.log(force.size());
   // force.start();
-}, 500);
+}, 125);
 
 window.addEventListener('resize', redrawGraph);
